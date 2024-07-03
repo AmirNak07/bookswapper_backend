@@ -9,10 +9,9 @@ CREATE TABLE IF NOT EXISTS users
 
     city_id      INTEGER,
     FOREIGN KEY (city_id) REFERENCES cities (id),
-
     biography    VARCHAR(200) DEFAULT '',
-
     avatar       TEXT         DEFAULT '',
+    phone_number VARCHAR(15)  DEFAULT '',
 
-    phone_number VARCHAR(15)  DEFAULT ''
+    auth_uuid VARCHAR(36) NOT NULL
 );
