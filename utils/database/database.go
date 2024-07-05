@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func DatabaseConnection() (*gorm.DB, error) {
+func Connection() (*gorm.DB, error) {
 	// get database configuration
 	postgresHost := env.GetEnv("POSTGRES_HOST", "localhost")
 	postgresPort := env.GetEnv("POSTGRES_PORT", "5432")
