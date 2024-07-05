@@ -1,8 +1,5 @@
 .idea
-<<<<<<< HEAD
 test.go
-=======
->>>>>>> de47c15fdf9ff2162396b18701075a4e86bbffc8
 
 # Binaries for programs and plugins
 *.exe
