@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	database2 "bookswapper/models/database"
+	dbmodels "bookswapper/models/database"
 	"bookswapper/models/requests"
 	"bookswapper/utils/password"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"gorm.io/gorm"
 	"time"
 )
@@ -19,7 +20,7 @@ func Login(db *gorm.DB) fiber.Handler {
 				"status": errorString,
 			})
 		}
-		var user database2.User
+		var user dbmodels.User
 		result := db.First(&user, "login = ?", data.Login)
 		if result.Error != nil {
 			errorString := fmt.Sprintf("failed to find user: %s", result.Error.Error())
@@ -27,13 +28,25 @@ func Login(db *gorm.DB) fiber.Handler {
 				"status": errorString,
 			})
 		}
-		if password.CheckPasswordHash(data.Password, user.PasswordHash) {
-			return c.Status(400).JSON(fiber.Map{
+		if !password.CheckPasswordHash(data.Password, user.PasswordHash) {
+			return c.Status(401).JSON(fiber.Map{
 				"status": "wrong password",
 			})
 		}
+
+		claims := jwt.MapClaims{
+			"login": user.Login,
+		}
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		signedToken, tokenErr := token.SignedString([]byte("bookswapper"))
+		if tokenErr != nil {
+			errorString := fmt.Sprintf("failed to sign token: %s", tokenErr.Error())
+			return c.Status(500).JSON(fiber.Map{
+				"status": errorString,
+			})
+		}
 		return c.JSON(&fiber.Map{
-			"status": "user logged in",
+			"token": signedToken,
 		})
 	}
 }
@@ -55,7 +68,7 @@ func Register(db *gorm.DB) fiber.Handler {
 				"status": errorString,
 			})
 		}
-		user := &database2.User{
+		user := &dbmodels.User{
 			Login:        data.Login,
 			PasswordHash: hashedPassword,
 			CreatedAt:    time.Now(),
