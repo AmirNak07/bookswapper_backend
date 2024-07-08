@@ -22,7 +22,7 @@ func NewBookswapperApp() *BookswapperApp {
 	}
 
 	// migrate db models
-	migrateErr := db.AutoMigrate(dbmodels.User{})
+	migrateErr := db.AutoMigrate(dbmodels.User{}, dbmodels.Book{}, dbmodels.Trade{})
 	if migrateErr != nil {
 		panic("failed to migrate database" + migrateErr.Error())
 	}
@@ -36,6 +36,7 @@ func NewBookswapperApp() *BookswapperApp {
 	api := app.Group("/api")
 	routes.AuthRouter(api, db)
 	routes.PingRouter(api)
+	routes.ProfileRouter(api, db)
 
 	return &BookswapperApp{
 		Fiber: app,
