@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	dbmodels "bookswapper/models/database"
-	"bookswapper/models/requests"
-	"bookswapper/utils/password"
+	dbmodels "bookswapper/internal/models/database"
+	"bookswapper/internal/models/requests"
+	"bookswapper/internal/utils/password"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"

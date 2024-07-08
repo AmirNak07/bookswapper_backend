@@ -1,7 +1,7 @@
 package database
 
 import (
-	"bookswapper/utils/env"
+	"bookswapper/internal/utils/env"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"bookswapper/api/handlers"
+	"bookswapper/internal/api/handlers"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
