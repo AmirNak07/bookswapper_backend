@@ -8,7 +8,7 @@ Stack/Libs used:
 
 Configuration via environment variables (```.env``` file for docker):
 ```
-POSTGRES_HOST=docker
+POSTGRES_HOST=db
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
