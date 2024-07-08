@@ -1,7 +1,7 @@
 name: Build docker image
 on:
   push:
-    branches: ['fiber']
+    branches: ['main']
 
 env:
   REGISTRY: ghcr.io
