@@ -6,7 +6,6 @@ import (
 	"bookswapper/internal/utils/database"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	// _ "bookswapper/cmd/docs"
 )
 
 type BookswapperApp struct {
@@ -29,10 +28,8 @@ func NewBookswapperApp() *BookswapperApp {
 
 	// init new fiber app and use swagger
 	app := fiber.New()
-	//app.Use(swagger.New())
 
 	// map api routes and swagger
-	//app.Get("/swagger/*", swagger.HandlerDefault)
 	api := app.Group("/api")
 	routes.AuthRouter(api, db)
 	routes.PingRouter(api)
