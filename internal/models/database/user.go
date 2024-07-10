@@ -10,6 +10,7 @@ type User struct {
 	ID           uint   `gorm:"primaryKey;autoIncrement"`
 	Login        string `gorm:"type:varchar(20);unique"`
 	PasswordHash string
+	Username     string `gorm:"type:varchar(35)"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    gorm.DeletedAt `gorm:"index"`

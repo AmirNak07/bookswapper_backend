@@ -13,7 +13,7 @@ import (
 
 func Login(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		data := &requests.User{}
+		data := &requests.LoginRequest{}
 		if err := c.BodyParser(data); err != nil {
 			errorString := fmt.Sprintf("invalid json: %s", err.Error())
 			return c.Status(400).JSON(fiber.Map{
@@ -35,7 +35,7 @@ func Login(db *gorm.DB) fiber.Handler {
 		}
 
 		claims := jwt.MapClaims{
-			"login": user.Login,
+			"id": fmt.Sprint(user.ID),
 		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		signedToken, tokenErr := token.SignedString([]byte("bookswapper"))
@@ -53,7 +53,7 @@ func Login(db *gorm.DB) fiber.Handler {
 
 func Register(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		data := &requests.User{}
+		data := &requests.RegisterRequest{}
 		if reqErr := c.BodyParser(data); reqErr != nil {
 			errorString := fmt.Sprintf("invalid json: %s", reqErr.Error())
 			return c.Status(400).JSON(fiber.Map{
@@ -70,6 +70,7 @@ func Register(db *gorm.DB) fiber.Handler {
 		}
 		user := &dbmodels.User{
 			Login:        data.Login,
+			Username:     data.Username,
 			PasswordHash: hashedPassword,
 			CreatedAt:    time.Now(),
 		}
