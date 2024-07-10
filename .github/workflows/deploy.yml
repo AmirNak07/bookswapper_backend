@@ -1,14 +1,17 @@
 name: Deploy docker compose to VM
 on:
-  workflow_run: 
+  workflow_run:
     types:
       - completed
-    workflows: ['Build docker image']
-    
+    workflows: ["Build docker image"]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: read
+      packages: read
+
     steps:
       - name: Restart docker compose
         uses: appleboy/ssh-action@v1.0.3
@@ -17,8 +20,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: 
-            cd bookswapper &&
+          script: cd bookswapper &&
+            docker login -u linuxfight -p ${{ secrets.GITHUB_TOKEN }} &&
             docker compose down &&
             docker compose pull &&
             docker compose up -d &&
