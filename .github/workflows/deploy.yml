@@ -21,7 +21,6 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: cd bookswapper &&
-            docker login -u linuxfight -p ${{ secrets.GITHUB_TOKEN }} &&
             docker compose down &&
             docker compose pull &&
             docker compose up -d &&
