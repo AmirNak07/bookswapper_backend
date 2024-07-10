@@ -1,6 +1,6 @@
 services:
   server:
-    image: ghcr.io/amirnak07/bookswapper_backend:main
+    image: ghcr.io/bookswapper/bookswapper_backend:main
     ports:
       - 8080:8080
     depends_on:
