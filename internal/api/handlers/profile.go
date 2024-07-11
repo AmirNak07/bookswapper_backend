@@ -13,7 +13,6 @@ func GetMe(db *gorm.DB) fiber.Handler {
 		jwtToken := c.Locals("user").(*jwt.Token)
 		claims := jwtToken.Claims.(jwt.MapClaims)
 		id := claims["id"].(string)
-		println(id)
 
 		var user dbmodels.User
 		result := db.First(&user, "id = ?", id)
@@ -30,6 +29,7 @@ func GetMe(db *gorm.DB) fiber.Handler {
 				"login":     user.Login,
 				"username":  user.Username,
 				"join_date": user.CreatedAt,
+				"city":      user.City,
 			},
 		})
 	}
