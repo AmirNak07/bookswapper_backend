@@ -4,4 +4,5 @@ type RegisterRequest struct {
 	Login    string
 	Username string
 	Password string
+	CityId   uint
 }

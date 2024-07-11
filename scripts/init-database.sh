@@ -3,8 +3,8 @@ set -e
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
   CREATE TABLE IF NOT EXISTS City (
-    ID SERIAL PRIMARY KEY,
-    CityName VARCHAR(50) NOT NULL
+    id SERIAL PRIMARY KEY UNIQUE,
+    cityname VARCHAR(50) NOT NULL
   );
 
   INSERT INTO City (CityName)   VALUES

@@ -38,6 +38,7 @@ func NewBookswapperApp() *BookswapperApp {
 	routes.PingRouter(api)
 	routes.ProfileRouter(api, db)
 	routes.CityRouter(api, db)
+	routes.TradeRouter(api, db)
 	return &BookswapperApp{
 		Fiber: app,
 		Db:    db,

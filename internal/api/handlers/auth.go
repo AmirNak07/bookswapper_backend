@@ -72,6 +72,7 @@ func Register(db *gorm.DB) fiber.Handler {
 			Login:        data.Login,
 			Username:     data.Username,
 			PasswordHash: hashedPassword,
+			CityId:       data.CityId,
 			CreatedAt:    time.Now(),
 		}
 		result := db.Create(&user)
