@@ -10,4 +10,6 @@ import (
 func ProfileRouter(app fiber.Router, db *gorm.DB) {
 	jwt := middlewares.AuthMiddleware("bookswapper")
 	app.Get("/profiles/me", jwt, handlers.GetMe(db))
+
+	app.Get("profiles/user", handlers.GetUser(db))
 }
