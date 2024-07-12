@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"gorm.io/gorm"
+	"strconv"
 	"time"
 )
 
@@ -68,11 +69,21 @@ func Register(db *gorm.DB) fiber.Handler {
 				"status": errorString,
 			})
 		}
+
+		cityId, idErr := strconv.ParseUint(data.CityId.String(), 10, 32)
+
+		if idErr != nil {
+			errorString := fmt.Sprintf("failed to hash password: %s", idErr.Error())
+			return c.Status(400).JSON(fiber.Map{
+				"status": errorString,
+			})
+		}
+
 		user := &dbmodels.User{
 			Login:        data.Login,
 			Username:     data.Username,
 			PasswordHash: hashedPassword,
-			CityId:       data.CityId,
+			CityId:       uint(cityId),
 			CreatedAt:    time.Now(),
 		}
 		result := db.Create(&user)
