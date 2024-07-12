@@ -96,3 +96,46 @@ func AddTrade(db *gorm.DB) fiber.Handler {
 		})
 	}
 }
+
+func GetTradeById(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		TradeIdStr := c.Query("TradeId", "1")
+		TradeId, err := strconv.Atoi(TradeIdStr)
+		if err != nil {
+			errorString := fmt.Sprintf("failed to get offset: %s", err.Error())
+			return c.Status(404).JSON(fiber.Map{
+				"status": errorString,
+			})
+		}
+
+		var trade dbmodels.Trade
+		result_user := db.First(&trade, "id = ?", TradeId)
+		if result_user.Error != nil {
+			errorString := fmt.Sprintf("failed to find trade: %s", result_user.Error.Error())
+			return c.Status(404).JSON(fiber.Map{
+				"status": errorString,
+			})
+		}
+
+		var author dbmodels.User
+		result_author := db.First(&author, "id = ?", trade.AuthorId)
+		if result_author.Error != nil {
+			errorString := fmt.Sprintf("failed to find author: %s", result_user.Error.Error())
+			return c.Status(404).JSON(fiber.Map{
+				"status": errorString,
+			})
+		}
+
+		return c.JSON(fiber.Map{
+			"status": "success",
+			"data": fiber.Map{
+				"trade": fiber.Map{
+					"id":          fmt.Sprint(trade.ID),
+					"bookname":    trade.BookName,
+					"description": trade.Description,
+					"Author_id":   fmt.Sprint(trade.AuthorId),
+					"Author_name": author.Username,
+				}},
+		})
+	}
+}

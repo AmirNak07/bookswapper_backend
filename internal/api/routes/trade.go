@@ -12,4 +12,6 @@ func TradeRouter(app fiber.Router, db *gorm.DB) {
 	app.Get("/trades", handlers.GetTrades(db))
 
 	app.Post("/trade", jwt, handlers.AddTrade(db))
+
+	app.Get("/trade/id", handlers.GetTradeById(db))
 }
