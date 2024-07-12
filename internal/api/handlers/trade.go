@@ -48,7 +48,7 @@ func GetTrades(db *gorm.DB) fiber.Handler {
 				"Author_id":   fmt.Sprint(trade.AuthorId),
 				"Author_name": author.Username,
 			}
-			tradeMap["cities"] = append(tradeMap["cities"], tradeEntry)
+			tradeMap["trades"] = append(tradeMap["cities"], tradeEntry)
 		}
 
 		return c.JSON(fiber.Map{
